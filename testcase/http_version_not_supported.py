@@ -19,3 +19,6 @@ def run():
     if http_response.status != 505:
         print('error: {}'.format(__file__))
         print('expected status: {}, actual status: {}'.format('505', str(http_response.status)))
+
+if __name__ == '__main__':
+    run()

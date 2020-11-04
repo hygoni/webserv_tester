@@ -4,7 +4,8 @@ import config
 import socket
 from http.client import HTTPResponse
 
-# use raw socket to modify http version
+# test rfc7230 section 3.3.1: Request Line
+
 def run():
     request_headers = []
     expected_status = []

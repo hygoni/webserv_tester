@@ -4,7 +4,8 @@ import config
 import socket
 from http.client import HTTPResponse
 
-# use raw socket to modify http version
+# test rfc7230 section 2.6: Protocol Versioning
+
 def run():
     # send http header
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

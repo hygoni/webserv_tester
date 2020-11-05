@@ -1,6 +1,6 @@
 import sys
-import os
 sys.path.append('./testcase')
+sys.path.append('./lib')
 from case import case
 
 # run all testcases

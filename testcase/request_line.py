@@ -1,5 +1,7 @@
 import sys
 sys.path.append('../')
+sys.path.append('../lib')
+from send_request import send_request
 import config
 import socket
 from http.client import HTTPResponse
@@ -11,29 +13,19 @@ def run():
     expected_status = []
 
     # multiple spaces
-    request_headers.append('GET  /  HTTP/1.1\r\nHost:{}\r\n\r\n'.format(config.SERVER_ADDR))
-    expected_status.append(400)
+    request_header = 'GET  /  HTTP/1.1\r\nHost:{}\r\n\r\n'.format(config.SERVER_ADDR)
+    http_response = send_request(request_header)
+    if http_response.status != 400:
+        print('error: {}'.format(__file__))
+        print('expected status: {}, actual status: {}'.format('400', str(http_response.status)))
 
     # too long URI
     target = '/' + 'A' * (config.MAX_URI_LENGTH - 1)
-    request_headers.append('GET {} HTTP/1.1\r\nHost:{}\r\n\r\n'.format(target, config.SERVER_ADDR))
-    expected_status.append(414)
-
-    # run cases
-    for i in range(len(request_headers)):
-        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client.connect((config.SERVER_ADDR, config.SERVER_PORT))
-        request_header = request_headers[i]
-        status = expected_status[i]
-        client.send(request_header.encode())
-        # read and parse http response
-        http_response = HTTPResponse(client)
-        http_response.begin()
-        # 505 error is expected for invalid http version
-        if http_response.status != status:
-            print('error: {}'.format(__file__))
-            print('expected status: {}, actual status: {}'.format(str(status), str(http_response.status)))
-        client.close()
+    request_header = 'GET {} HTTP/1.1\r\nHost:{}\r\n\r\n'.format(target, config.SERVER_ADDR)
+    http_response = send_request(request_header)
+    if http_response.status != 414:
+        print('error: {}'.format(__file__))
+        print('expected status: {}, actual status: {}'.format('414', str(http_response.status)))
 
 if __name__ == '__main__':
     run()

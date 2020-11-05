@@ -1,5 +1,7 @@
 import sys
 sys.path.append('../')
+sys.path.append('../lib')
+from send_request import send_request
 import config
 import socket
 from http.client import HTTPResponse
@@ -11,33 +13,26 @@ def run():
     expected_status = []
 
     # space between header-field and colon
-    request_headers.append('GET / HTTP/1.1\r\nHost :{}\r\n\r\n'.format(config.SERVER_ADDR))
-    expected_status.append(400)
+    request_header = 'GET / HTTP/1.1\r\nHost :{}\r\n\r\n'.format(config.SERVER_ADDR)
+    http_response = send_request(request_header)
+    if http_response.status != 400:
+            print('error: {}'.format(__file__))
+            print('expected status: {}, actual status: {}'.format('400', str(http_response.status)))
 
-    request_headers.append('GET / HTTP/1.1\r\nHost:{}\r\nAccept-Language :hyeyoo\r\n\r\n'.format(config.SERVER_ADDR))
-    expected_status.append(400)
+    request_header = 'GET / HTTP/1.1\r\nHost:{}\r\nAccept-Language :hyeyoo\r\n\r\n'.format(config.SERVER_ADDR)
+    http_response = send_request(request_header)
+    if http_response.status != 400:
+            print('error: {}'.format(__file__))
+            print('expected status: {}, actual status: {}'.format('400', str(http_response.status)))
 
     # too long header
     # not necessarily 400, it can be 4XX
     long_text = 'A' * 10000000
-    request_headers.append('GET / HTTP/1.1\r\nHost:{}\r\nUser-Agent:{}\r\n\r\n'.format(config.SERVER_ADDR, long_text))
-    expected_status.append(400)
-
-
-    # run cases
-    for i in range(len(request_headers)):
-        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client.connect((config.SERVER_ADDR, config.SERVER_PORT))
-        request_header = request_headers[i]
-        status = expected_status[i]
-        client.send(request_header.encode())
-        # read and parse http response
-        http_response = HTTPResponse(client)
-        http_response.begin()
-        if http_response.status != status:
+    request_header = 'GET / HTTP/1.1\r\nHost:{}\r\nUser-Agent:{}\r\n\r\n'.format(config.SERVER_ADDR, long_text)
+    http_response = send_request(request_header)
+    if http_response.status / 100 != 4:
             print('error: {}'.format(__file__))
-            print('expected status: {}, actual status: {}'.format(str(status), str(http_response.status)))
-        client.close()
+            print('expected status: {}, actual status: {}'.format('4XX', str(http_response.status)))
 
 if __name__ == '__main__':
     run()

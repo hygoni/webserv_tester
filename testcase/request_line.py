@@ -9,8 +9,7 @@ from http.client import HTTPResponse
 # test rfc7230 section 3.3.1: Request Line
 
 def run():
-    request_headers = []
-    expected_status = []
+    print('testing {}...'.format(__file__))
 
     # multiple spaces
     request_header = 'GET  /  HTTP/1.1\r\nHost:{}\r\n\r\n'.format(config.SERVER_ADDR)

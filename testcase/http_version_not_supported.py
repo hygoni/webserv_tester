@@ -9,6 +9,8 @@ from http.client import HTTPResponse
 # test rfc7230 section 2.6: Protocol Versioning
 
 def run():
+    print('testing {}...'.format(__file__))
+    
     # send http header
     request_header = 'GET / HTTP/0.1\r\nHost:{}\r\n\r\n'.format(config.SERVER_ADDR)
    

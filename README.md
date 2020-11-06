@@ -1,7 +1,15 @@
 # webserv_tester
+  
+This is a tester for 42 subject <i>webserv</i>
+it tests:
 
-### TODO
-- add headers in subjects
+1. check if the webserver follows RFC
+2. check if it correctly validate input values (security)
+
+this tester isn't perfect. you can justify your choice if the tests fails
+
+# TODO
+- <strong>add headers in subjects</strong>
   - Host
   - Accept-Charsets
   - Accept-Language
@@ -20,13 +28,5 @@
   - Transfer-Encoding
   - User-Agent
   - WWW-Authenticate
-- add security attacks
+- <strong>add security attacks</strong>
   - response splitting
-  
-This is a tester for 42 subject <i>webserv</i>
-it tests:
-
-1. check if the webserver follows RFC
-2. check if it correctly validate input values (security)
-
-this tester isn't perfect. you can justify your choice if the tests fails

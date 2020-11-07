@@ -16,7 +16,7 @@ def run():
    
     http_response = send_request(request_header)
     # 505 error is expected for invalid http version
-    if http_response.status != 505 and http_response.status / 100 != 4:
+    if http_response.status != 505 and http_response.status // 100 != 4:
         print('error: {}'.format(__file__))
         print('expected status: {}, actual status: {}'.format('505 or 4XX', str(http_response.status)))
 

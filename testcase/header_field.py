@@ -39,7 +39,8 @@ def run():
     # empty header name
     request_header = 'GET / HTTP/1.1\r\nHost:{}\r\n:empty_name\r\n\r\n'.format(config.SERVER_ADDR)
     http_response = send_request(request_header)
-    if True:
+    #if True:
+    if http_response.status // 100 != 4:
             print('error : {}'.format(__file__))
             print('reason: empty header name')
             print('expected status: {}, actual status: {}'.format('4XX', str(http_response.status)))
